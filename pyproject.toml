@@ -6,9 +6,9 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Ian Ross", email = "iaross@wisc.edu"}
 ]
-keywords = ["htcondor", "hpc", "memory", "analysis", "resource-management"]
+keywords = ["htcondor", "htc", "memory", "analysis", "resource-management"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -29,9 +29,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/chtc-memory-analyzer"
-Repository = "https://github.com/yourusername/chtc-memory-analyzer"
-Issues = "https://github.com/yourusername/chtc-memory-analyzer/issues"
+Homepage = "https://github.com/iross/chtc-memory-analyzer"
+Repository = "https://github.com/iross/chtc-memory-analyzer"
+Issues = "https://github.com/iross/chtc-memory-analyzer/issues"
 
 [project.scripts]
 chtc-analyze = "chtc_memory_analyzer.cli:main"
