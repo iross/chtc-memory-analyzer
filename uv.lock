@@ -61,12 +61,11 @@ wheels = [
 
 [[package]]
 name = "chtc-memory-analyzer"
-version = "0.2.0"
+version = "0.4.0"
 source = { editable = "." }
 dependencies = [
     { name = "click", version = "8.1.8", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "click", version = "8.3.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
-    { name = "htcondor" },
     { name = "pandas", version = "2.0.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "pandas", version = "2.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
 ]
@@ -84,6 +83,9 @@ elasticsearch = [
     { name = "elasticsearch", version = "9.1.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
     { name = "elasticsearch", version = "9.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
+htcondor = [
+    { name = "htcondor" },
+]
 test = [
     { name = "pytest", version = "8.3.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "pytest", version = "8.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
@@ -98,7 +100,7 @@ test = [
 requires-dist = [
     { name = "click", specifier = ">=8.0.0" },
     { name = "elasticsearch", marker = "extra == 'elasticsearch'", specifier = ">=8.0.0" },
-    { name = "htcondor", specifier = ">=24.0.0" },
+    { name = "htcondor", marker = "extra == 'htcondor'", specifier = ">=24.0.0" },
     { name = "pandas", specifier = ">=1.5.0" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.0.0" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=7.0.0" },
@@ -107,7 +109,7 @@ requires-dist = [
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.7.0" },
     { name = "ty", marker = "extra == 'dev'" },
 ]
-provides-extras = ["test", "dev", "elasticsearch"]
+provides-extras = ["htcondor", "test", "dev", "elasticsearch"]
 
 [[package]]
 name = "click"

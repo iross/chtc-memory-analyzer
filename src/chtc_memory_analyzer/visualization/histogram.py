@@ -1,5 +1,6 @@
 """ASCII histogram generation"""
 
+import math
 from typing import List
 
 
@@ -8,8 +9,14 @@ def create_histogram(values: List[float], bins: int = 10, width: int = 50) -> st
     if not values:
         return "No data"
 
-    min_val = min(values)
-    max_val = max(values)
+    # Filter out NaN values
+    valid_values = [v for v in values if not math.isnan(v)]
+
+    if not valid_values:
+        return "No valid data (all NaN)"
+
+    min_val = min(valid_values)
+    max_val = max(valid_values)
 
     if min_val == max_val:
         return f"All values equal: {min_val:.2f}"
@@ -18,7 +25,7 @@ def create_histogram(values: List[float], bins: int = 10, width: int = 50) -> st
     bin_width = (max_val - min_val) / bins
     bin_counts = [0] * bins
 
-    for val in values:
+    for val in valid_values:
         bin_idx = min(int((val - min_val) / bin_width), bins - 1)
         bin_counts[bin_idx] += 1
 

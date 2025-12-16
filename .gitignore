@@ -28,5 +28,7 @@ htmlcov/
 # Linting
 .ruff_cache/
 
+*.csv
+
 # Pre-commit
 .pre-commit-cache/

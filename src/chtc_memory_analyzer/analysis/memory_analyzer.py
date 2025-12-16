@@ -25,15 +25,28 @@ class MemoryAnalyzer:
         Main analysis orchestrator.
 
         Args:
-            df: DataFrame with standardized job data
+            df: DataFrame with job data. Must contain columns: ClusterId, Owner,
+                RequestMemory, MemoryUsage
 
         Returns:
             Dict with keys: cluster_analyses, user_totals, over_allocators
+
+        Raises:
+            ValueError: If required columns are missing
         """
+        # Validate required columns
+        required = {"ClusterId", "Owner", "RequestMemory", "MemoryUsage"}
+        if not required.issubset(df.columns):
+            missing = required - set(df.columns)
+            raise ValueError(
+                f"DataFrame missing required columns for memory analysis: {missing}. "
+                f"Available columns: {set(df.columns)}"
+            )
+
         # Filter clusters by min_jobs threshold
-        cluster_counts = df.groupby("cluster_id").size()
+        cluster_counts = df.groupby("ClusterId").size()
         large_clusters = cluster_counts[cluster_counts >= self.min_jobs].index
-        filtered_df = df[df["cluster_id"].isin(large_clusters)]
+        filtered_df = df[df["ClusterId"].isin(large_clusters)]
 
         # Analyze by cluster
         cluster_analyses = self._analyze_by_cluster(filtered_df)
@@ -52,7 +65,7 @@ class MemoryAnalyzer:
 
     def _analyze_by_cluster(self, df: pd.DataFrame) -> List[Dict]:
         """
-        Group by cluster_id and calculate memory stats.
+        Group by ClusterId and calculate memory stats.
 
         Args:
             df: DataFrame with job data
@@ -62,18 +75,18 @@ class MemoryAnalyzer:
         """
         analyses = []
 
-        for cluster_id, group in df.groupby("cluster_id"):
+        for cluster_id, group in df.groupby("ClusterId"):
             # Get owner (assume all jobs in cluster have same owner)
-            owner = group["owner"].iloc[0] if len(group) > 0 else "unknown"
+            owner = group["Owner"].iloc[0] if len(group) > 0 else "unknown"
 
             # Extract memory data
-            requested_memory = group["request_memory_mb"].tolist()
-            used_memory = group["used_memory_mb"].tolist()
+            requested_memory = group["RequestMemory"].tolist()
+            used_memory = group["MemoryUsage"].tolist()
 
             # Calculate usage ratios
             memory_ratios = []
             for req, used in zip(requested_memory, used_memory):
-                if req > 0:
+                if req and req > 0 and used is not None:
                     memory_ratios.append(used / req)
 
             analysis = {

@@ -1,6 +1,6 @@
 [project]
 name = "chtc-memory-analyzer"
-version = "0.2.0"
+version = "0.4.0"
 description = "Analyze HTCondor job history for memory usage patterns and identify resource over-allocation"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -24,12 +24,14 @@ classifiers = [
 ]
 
 dependencies = [
-    "htcondor>=24.0.0",
     "click>=8.0.0",
     "pandas>=1.5.0",
 ]
 
 [project.optional-dependencies]
+htcondor = [
+    "htcondor>=24.0.0",
+]
 test = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
